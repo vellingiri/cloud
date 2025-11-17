@@ -5,9 +5,9 @@ variable "vm_names" {
   default = [
     "master",
     "worker1",
-    "worker2",
-    "worker3",
-    "worker4"
+    #"worker2",
+    #"worker3",
+    #"worker4"
   ]
 }
 

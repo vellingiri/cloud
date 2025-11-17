@@ -21,7 +21,7 @@ resource "openstack_compute_instance_v2" "vms" {
 resource "openstack_networking_floatingip_v2" "fips" {
   for_each = toset(var.vm_names)
 
-  pool = "external_network"
+  pool = var.public_network_name
 }
 
 resource "openstack_compute_floatingip_associate_v2" "fip_assoc" {

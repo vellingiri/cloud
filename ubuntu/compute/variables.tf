@@ -19,3 +19,7 @@ variable "private_network_id" {
   type = string
 }
 
+variable "public_network_name" {
+  type = string
+}
+

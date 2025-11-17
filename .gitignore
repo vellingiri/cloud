@@ -8,3 +8,10 @@
 # Local vars (will contain secrets)
 **/terraform.tfvars
 **/*.auto.tfvars
+
+terraform/*.zip
+*.zip
+*.qcow2
+*.img
+*.iso
+

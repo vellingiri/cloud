@@ -1,3 +1,4 @@
+# https://www.youtube.com/watch?v=Mc70SjV72ck
 sudo apt install net-tools
 touch .hushlogin
 sudo apt update

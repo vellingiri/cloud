@@ -1,0 +1,10 @@
+# Terraform state
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/terraform.tfstate.*
+**/*.tfplan
+
+# Local vars (will contain secrets)
+**/terraform.tfvars
+**/*.auto.tfvars

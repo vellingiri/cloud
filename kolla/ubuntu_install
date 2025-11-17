@@ -1,0 +1,38 @@
+sudo apt install net-tools
+touch .hushlogin
+sudo apt update
+sudo apt upgrade -y
+sudo apt install git python3-dev libffi-dev gcc libssl-dev libdbus-glib-1-dev python3-venv
+python3 -m venv ~/kolla
+source ~/kolla/bin/activate
+pip install -U pip
+pip install docker pkgconfig dbus-python
+pip install git+https://opendev.org/openstack/kolla-ansible@master
+sudo mkdir -p /etc/kolla
+sudo chown $USER:$USER /etc/kolla
+cp -r ~/kolla/share/kolla-ansible/etc_examples/kolla/* /etc/kolla/
+ls kolla/share/kolla-ansible/ansible/inventory/
+cp kolla/share/kolla-ansible/ansible/inventory/all-in-one .
+kolla-ansible install-deps
+kolla-genpwd
+sudo vim /etc/kolla/globals.yml
+kolla-ansible bootstrap-servers -i all-in-one
+kolla-ansible prechecks -i all-in-one
+kolla-ansible deploy -i all-in-one
+pip install python-openstackclient -c https://releases.openstack.org/constraints/upper/master
+kolla-ansible post-deploy -i all-in-one
+mkdir -p ~/.config/openstack
+cp /etc/kolla/clouds.yaml ~/.config/openstack/
+vim .bashrc
+	#export OS_CLOUD=kolla-admin
+	#source ~/kolla/bin/activate
+sudo usermod -aG docker $USER
+
+# Verification
+openstack service list
+openstack compute service list
+openstack network agent list
+openstack volume service list
+docker ps
+grep keystone_admin_password /etc/kolla/passwords.yml
+

@@ -9,7 +9,7 @@ variable "vm_names" {
 
 variable "flavor_name" {
   type    = string
-  default = "m1.small"
+  default = "m1.medium"
 }
 
 variable "image_name" {

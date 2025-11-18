@@ -1,0 +1,37 @@
+#!/bin/bash
+# ssh-multi (fixed)
+
+SESSION="multi"
+
+starttmux() {
+    if [ -z "$HOSTS" ]; then
+        echo -n "Please provide a list of hosts separated by spaces [ENTER]: "
+        read HOSTS
+    fi
+
+    local hosts=( $HOSTS )
+
+    # Create a session if it doesn't exist
+    tmux has-session -t $SESSION 2>/dev/null
+    if [ $? -ne 0 ]; then
+        tmux new-session -d -s $SESSION "ssh ${hosts[0]}"
+    else
+        tmux new-window -t $SESSION "ssh ${hosts[0]}"
+    fi
+
+    unset hosts[0]
+
+    for i in "${hosts[@]}"; do
+        tmux split-window -t $SESSION: -h "ssh $i"
+        tmux select-layout -t $SESSION: tiled >/dev/null
+    done
+
+    # Enable synchronized input
+    tmux set-window-option -t $SESSION synchronize-panes on >/dev/null
+
+    # Attach to the session
+    tmux attach -t $SESSION
+}
+
+HOSTS=${HOSTS:=$*}
+starttmux

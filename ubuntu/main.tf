@@ -19,12 +19,17 @@ module "keypair" {
 }
 
 module "compute" {
-  source              = "./compute"
-  vm_names            = var.vm_names
-  flavor_name         = var.flavor_name
-  image_name          = var.image_name
-  keypair_name        = module.keypair.keypair_name
-  private_network_id  = module.network.private_network_id
+  source = "./compute"
+
+  vm_names     = var.vm_names
+  flavor_name  = var.flavor_name
+  image_name   = var.image_name
+  keypair_name = var.keypair_name
+
+  private_network_id = module.network.private_network_id
+  private_subnet_id  = module.network.private_subnet_id
+
+  # Floating IP pool is the NAME of the external network
   public_network_name = module.network.external_network_name
 }
 

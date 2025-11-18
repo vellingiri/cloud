@@ -1,6 +1,5 @@
 variable "vm_names" {
-  description = "List of VM names"
-  type        = list(string)
+  type = map(string)
 }
 
 variable "flavor_name" {
@@ -16,6 +15,10 @@ variable "keypair_name" {
 }
 
 variable "private_network_id" {
+  type = string
+}
+
+variable "private_subnet_id" {
   type = string
 }
 

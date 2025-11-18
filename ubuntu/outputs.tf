@@ -5,10 +5,6 @@ output "vm_names" {
   value = module.compute.vm_names
 }
 
-output "floating_ips" {
-  value = module.compute.floating_ips
-}
-
 #################################
 # DNS Records
 #################################

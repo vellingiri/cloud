@@ -1,35 +1,33 @@
-variable "vm_names" {
-  description = "List of VM names to create"
-  type        = list(string)
+#############################################
+# ROOT VARIABLE DEFINITIONS
+#############################################
 
-  default = [
-    "master",
-    "worker1",
-    #"worker2",
-    #"worker3",
-    #"worker4"
-  ]
+variable "vm_names" {
+  description = "Map of VM names to create"
+  type        = map(string)
+}
+
+variable "flavor_name" {
+  type    = string
+  default = "m1.small"
+}
+
+variable "image_name" {
+  type    = string
+  default = "ubuntu2204"
+}
+
+variable "keypair_name" {
+  type    = string
+  default = "default-key"
+}
+
+variable "domain" {
+  default = "rdulinux.com."
 }
 
 variable "reverse_zone_name" {
   type    = string
   default = "2.168.192.in-addr.arpa."
-}
-
-variable "domain" {
-  type    = string
-  default = "rdulinux.com."
-}
-
-variable "flavor_name" {
-  description = "OpenStack flavor name for all VMs"
-  type        = string
-  default     = "m1.small"
-}
-
-variable "image_name" {
-  description = "OpenStack image name to use for all VMs"
-  type        = string
-  default     = "ubuntu2204"
 }
 

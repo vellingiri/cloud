@@ -21,6 +21,10 @@ variable "img" {
       name            = "centos9"
       local_file_path = "/iso/c3/centos9.qcow2"
     }
+    img7 = {
+      name            = "ubuntu24.04"
+      local_file_path = "/iso/c3/noble-server-cloudimg-amd64.img"
+    }
   }
 }
 

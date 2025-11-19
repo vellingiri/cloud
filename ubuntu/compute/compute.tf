@@ -25,11 +25,11 @@ resource "openstack_compute_instance_v2" "vms" {
   image_name  = var.image_name
   key_pair    = var.keypair_name
 
-  #user_data = file(
-  #  each.key == "master" ?
-  #  "${path.module}/../configs/master.yaml" :
-  #  "${path.module}/../configs/worker.yaml"
-  #)
+  user_data = file(
+    each.key == "controller" ?
+    "${path.module}/../configs/master.yaml" :
+    "${path.module}/../configs/worker.yaml"
+  )
 
   network {
     port = openstack_networking_port_v2.ports[each.key].id

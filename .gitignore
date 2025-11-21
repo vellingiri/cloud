@@ -7,7 +7,7 @@ crash.*.log
 
 # Terraform plan files
 *.tfplan
-*.tfvars
+#*.tfvars
 *.tfvars.json
 
 # Local module & provider cache

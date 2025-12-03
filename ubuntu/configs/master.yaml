@@ -2,16 +2,26 @@
 package_update: true
 package_upgrade: false
 
+
+ssh_pwauth: true
+disable_root: false
+
+chpasswd:
+  list: |
+    root:master
+    ubuntu:master
+  expire: false
+
 runcmd:
   - sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
   - sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-  - rm -fv /root/.ssh/authorized_keys
+    #- rm -fv /root/.ssh/authorized_keys
   - systemctl restart sshd
-  - echo -e 'master\nmaster' | passwd root
-  - echo -e 'master\nmaster' | passwd ubuntu
-  - touch /home/ubuntu/.hushlogin
+  - touch /home/ubuntu/.hushlogin /root/.hushlogin
   - unlink /etc/resolv.conf
   - echo "search rdulinux.com\nnameserver 192.168.2.5" > /etc/resolv.conf
+  - echo "alias k='kubectl'" >> /root/.bashrc
+  - echo "alias k='kubectl'" >> /home/ubuntu/.bashrc
 
   - swapoff -a
   - sed -i '/swap/d' /etc/fstab
@@ -45,9 +55,19 @@ runcmd:
   - kubeadm init --apiserver-advertise-address=$a --pod-network-cidr=192.168.0.0/16 --cri-socket unix:///run/containerd/containerd.sock
     #- kubeadm init --control-plane-endpoint controller.rdulinux.com --pod-network-cidr=192.168.0.0/16 --cri-socket unix:///run/containerd/containerd.sock
 
-  - mkdir -p /home/ubuntu/.kube
+  - mkdir -p /home/ubuntu/.kube /root/.kube
   - cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config
+  - cp /etc/kubernetes/admin.conf /root/.kube/config
   - chown ubuntu:ubuntu /home/ubuntu/.kube/config
+  - chown root:root   /root/.kube/config
+
+  - |
+    cat <<EOF >/etc/crictl.yaml
+    runtime-endpoint: unix:///run/containerd/containerd.sock
+    image-endpoint: unix:///run/containerd/containerd.sock
+    timeout: 10
+    debug: false
+    EOF
 
   # install calico
   - su ubuntu -c "kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/calico.yaml"

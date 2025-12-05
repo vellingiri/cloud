@@ -5,18 +5,7 @@ package_upgrade: false
 ssh_pwauth: true
 disable_root: false
 
-chpasswd:
-  list: |
-    root:master
-    ubuntu:master
-  expire: false
-
 runcmd:
-  - sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
-  - sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-    #- rm -fv /root/.ssh/authorized_keys
-  - systemctl restart sshd
-  - touch /home/ubuntu/.hushlogin /root/.hushlogin
   - unlink /etc/resolv.conf
   - echo "search rdulinux.com\nnameserver 192.168.2.5" > /etc/resolv.conf
 

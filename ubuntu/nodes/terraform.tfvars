@@ -5,6 +5,7 @@ vm_names = {
   worker3 = "worker3"
   worker4 = "worker4"
   worker5 = "worker5"
+  rancher = "rancher"
 }
 
 flavor_name  = "m1.medium"

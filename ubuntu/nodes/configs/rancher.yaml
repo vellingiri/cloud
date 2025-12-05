@@ -1,0 +1,44 @@
+#cloud-config
+package_update: true
+package_upgrade: false
+
+
+ssh_pwauth: true
+disable_root: false
+
+chpasswd:
+  list: |
+    root:master
+    ubuntu:master
+  expire: false
+
+packages:
+  - curl
+  - apt-transport-https
+  - ca-certificates
+  - gnupg
+  - lsb-release
+
+runcmd:
+  - sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
+  - sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+    #- rm -fv /root/.ssh/authorized_keys
+  - systemctl restart sshd
+  - touch /home/ubuntu/.hushlogin /root/.hushlogin
+  - unlink /etc/resolv.conf
+  - echo "search rdulinux.com\nnameserver 192.168.2.5" > /etc/resolv.conf
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  # Install Docker
+  - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+  - apt update
+  - apt install -y docker-ce docker-ce-cli containerd.io
+  - systemctl enable docker
+  - systemctl start docker
+
+  # Deploy Rancher Server
+  - |
+      docker run -d --privileged --restart=unless-stopped \
+        -p 80:80 \
+        -p 443:443 \
+        --name rancher \
+        rancher/rancher:stable

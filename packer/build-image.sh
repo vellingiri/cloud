@@ -113,7 +113,7 @@ apt-get install -y udev initramfs-tools
 apt-get install -y linux-image-virtual
 
 # SSH server
-apt-get install -y openssh-server wget inetutils-ping iproute2 net-tools dnsutils vim
+apt-get install -y openssh-server wget iproute2 net-tools dnsutils vim iputils-ping
 systemctl enable ssh || true
 
 # Cloud-init basics
@@ -162,22 +162,7 @@ chroot "${WORKDIR}/mnt" bash -c "
 sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
 rm -fv /root/.ssh/authorized_keys
-"
-
-
-echo "[12.1] Creating .hushlogin files…"
-
-chroot "${WORKDIR}/mnt" bash -c "
-  # Ensure home dirs exist
-  mkdir -p /home/ubuntu
-  mkdir -p /root
-
-  # Create hushlogin
-  touch /home/ubuntu/.hushlogin && chown ubuntu:ubuntu /home/ubuntu/.hushlogin
-  touch /root/.hushlogin
-
-  # Fix permissions
-  #chown ubuntu:ubuntu /home/ubuntu/.hushlogin || true
+touch /root/.hushlogin
 "
 
 ###############################################################################

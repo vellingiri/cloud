@@ -9,5 +9,5 @@ vm_names = {
 }
 
 flavor_name  = "m1.medium"
-image_name   = "ubuntu2204"
+image_name   = "ubuntu2404"
 keypair_name = "default-key"

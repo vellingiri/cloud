@@ -1,6 +1,6 @@
 # Terraform state
-#*.tfstate
-#*.tfstate.*
+*.tfstate
+*.tfstate.*
 terraform.tfstate.d/
 crash.log
 crash.*.log

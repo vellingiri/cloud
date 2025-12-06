@@ -21,7 +21,7 @@ resource "openstack_networking_port_v2" "ports" {
 resource "openstack_compute_instance_v2" "vms" {
   for_each    = var.vm_names
   name        = each.value
-  flavor_name = var.flavor_name
+  flavor_name = var.vm_flavors[each.key]
   image_name  = var.image_name
   key_pair    = var.keypair_name
 

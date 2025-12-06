@@ -19,7 +19,7 @@ output "dns_forward_records" {
   value = module.dns_records.forward_records
 }
 
-output "dns_reverse_records" {
-  value = module.dns_records.reverse_records
-}
+#output "dns_reverse_records" {
+#  value = module.dns_records.reverse_records
+#}
 

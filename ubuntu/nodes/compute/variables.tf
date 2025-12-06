@@ -2,10 +2,6 @@ variable "vm_names" {
   type = map(string)
 }
 
-variable "flavor_name" {
-  type = string
-}
-
 variable "image_name" {
   type = string
 }
@@ -24,5 +20,9 @@ variable "private_subnet_id" {
 
 variable "public_network_name" {
   type = string
+}
+
+variable "vm_flavors" {
+  type = map(string)
 }
 

@@ -8,6 +8,14 @@ vm_names = {
   #rancher = "rancher"
 }
 
-flavor_name  = "m1.medium"
-image_name   = "ubuntu2404"
+vm_flavors = {
+  controller = "m1.medium"
+  worker1    = "m1.small"
+  worker2    = "m1.small"
+  worker3    = "m1.small"
+  worker4    = "m1.small"
+  worker5    = "m1.small"
+}
+
+image_name   = "ubuntu2204"
 keypair_name = "default-key"
